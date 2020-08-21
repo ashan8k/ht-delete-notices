@@ -1,0 +1,162 @@
+Received: from SA0PR11MB4671.namprd11.prod.outlook.com (2603:10b6:3:ef::21) by
+ DM6PR11MB2793.namprd11.prod.outlook.com with HTTPS via
+ DM5PR04CA0059.NAMPRD04.PROD.OUTLOOK.COM; Sat, 13 Jun 2020 06:00:18 +0000
+Received: from CO2PR04CA0119.namprd04.prod.outlook.com (2603:10b6:104:7::21)
+ by SA0PR11MB4671.namprd11.prod.outlook.com (2603:10b6:806:9f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.21; Sat, 13 Jun
+ 2020 06:00:18 +0000
+Received: from CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:104:7:cafe::bb) by CO2PR04CA0119.outlook.office365.com
+ (2603:10b6:104:7::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18 via Frontend
+ Transport; Sat, 13 Jun 2020 06:00:18 +0000
+Authentication-Results: spf=softfail (sender IP is 204.93.2.9)
+ smtp.mailfrom=umich.edu; mx.uillinois.edu; dkim=none (message not signed)
+ header.d=none;mx.uillinois.edu; dmarc=none action=none
+ header.from=issues.hathitrust.org;compauth=softpass reason=201
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ umich.edu discourages use of 204.93.2.9 as permitted sender)
+Received: from illinois.edu (204.93.2.9) by
+ CO1NAM11FT057.mail.protection.outlook.com (10.13.174.205) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3088.18 via Frontend Transport; Sat, 13 Jun 2020 06:00:17 +0000
+Received: from pps.reinject (relays-agent10.techservices.illinois.edu [127.0.0.1])
+	by relays-agent10.techservices.illinois.edu (8.16.0.42/8.16.0.42) with ESMTPS id 05D60GM0065536
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 13 Jun 2020 01:00:16 -0500
+Received: from relays-agent10.techservices.illinois.edu (relays-agent10.techservices.illinois.edu [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05D60G2Q065533;
+	Sat, 13 Jun 2020 01:00:16 -0500
+Received: from massive-ghoul.egress.a.mail.umich.edu (egress-host.a.mail.umich.edu [35.162.59.88])
+	by relays-agent10.techservices.illinois.edu with ESMTP id 05D60FrT065529
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 13 Jun 2020 01:00:16 -0500
+Received: from careful-kobold.mx.a.mail.umich.edu (ip-172-31-12-233.us-west-2.compute.internal [172.31.12.233])
+	by massive-ghoul.egress.a.mail.umich.edu with ESMTPS
+	id 5EE46B6E.C65F9.2BE4A435.1888416;
+	Sat, 13 Jun 2020 02:00:14 -0400
+ARC-Authentication-Results: i=1; mx.umich.edu; 
+	iprev=pass policy.iprev=141.211.4.224 (sherry.umdl.umich.edu);
+	spf=none smtp.mailfrom=feedback@issues.hathitrust.org;
+	dkim=none;
+	dmarc=none header.from=feedback@issues.hathitrust.org;
+	arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; d=umich.edu; s=arc-2017-08-04;
+	t=1592028013; c=relaxed/relaxed;
+	bh=2Mvj/p73WHdMxB2yNwKDApN9RT2uOsRNYEkKSfX0dNM=;
+	h=From:To:Subject:Date; b=lfeU4ilrVmLDohXXmw6O3qmS4CLmCojlfjzhljMmewBZux9k/ZDOJMRt+ZdVpWsBrrCCn3AOXaTaehw0hcQ2bpxjq2xQv16uroRD0w+EUUqVbzIGC32h9JWfbIQr7STZM0soYWvP1lQ2VXZJdDctIl41FESgGu6UNOLFjqQHia4BzXnmQl2fKPWT2IpBinwK+o7kH9R965SASsmOcCBf+df9vYmgyYSZMhubqX7dxYOlF/vkoaKNbnOMqStyS3n0e/wW7Air77wPYGvgDD6jouLcqopN/tXG2cIa0xdALSllX8gmkqYLB6vlCr1jgHBJ9RsoFOGvZ0jPsN7zJvKAEw==
+ARC-Seal: i=1; a=rsa-sha256; d=umich.edu; s=arc-2017-08-04; t=1592028013;
+	cv=none; b=b/Eb5y3V4MM/qUEtCC9iOUGbwNMeOa8cHTSyYL/V0IdDgRcE5Uuzoaysx2NsGw9msmWXblEgAW55sIRTziSnJJEG6HZpjeFkDNT/850MV5o9rIDz+KlhnjQghZKMmBksjJ3Es/+CTpBfid4ghXTxTGd/ToX3vMBKFCmUswbYU/wXgNLb/TZaNE08LQ/I2XmOR1KHtROcK4XsmyF0ISnUDDad6uNR8dTKgd43ZeR4rlyZ1nGFLSQLFeTY4hqn34ZfnO+0JRTDfrRdv9181MQnu4l5DdZlWoJHhTVz6un/aV+FKPy0VqLGgny7M0nFFx+EU5GFKOP2kCK9wApjsE7IPw==
+Received: from sherry.umdl.umich.edu (sherry.umdl.umich.edu [141.211.4.224])
+	by careful-kobold.mx.a.mail.umich.edu with ESMTP
+	id 5EE46B6C.E6EF3.5971D79C.3979668;
+	Sat, 13 Jun 2020 02:00:13 -0400
+Received: from quik-1.umdl.umich.edu (quik-1.umdl.umich.edu [134.68.125.241])
+	by sherry.umdl.umich.edu (Postfix) with ESMTP id 664D040220
+	for <dataset-pd-oa@hathitrust.org>; Sat, 13 Jun 2020 02:00:11 -0400 (EDT)
+Received: from localhost (localhost [IPv6:::1])
+	by quik-1.umdl.umich.edu (Postfix) with ESMTP id 496E7641
+	for <dataset-pd-oa@hathitrust.org>; Sat, 13 Jun 2020 02:00:11 -0400 (EDT)
+From: HathiTrust <feedback@issues.hathitrust.org>
+To: dataset-pd-oa@hathitrust.org
+Subject: Delete notifications for ht_text_pd_open_access dataset
+Message-Id: <20200613060011.496E7641@quik-1.umdl.umich.edu>
+Date: Sat, 13 Jun 2020 02:00:11 -0400 (EDT)
+X-CLX-Response: 1enkXZEVETxEKelkXGxoaHxEKTFkXGxIcEQpZRBdsGGhLRBNhcGhuSREKWFg
+ XYwVOQ01zGll6T0gRCnhOF2dTZB0efll9fVpNEQp5QxdmaxtnH1pGTUtTRhEKQ0gXBx0RCkNZFw
+ cYGhMRCkNJFxoEGhoaEQpZTRdkRURPEQpZSRcacRoQGncGGxwccR4fEBp3BhgaBhoRClleF2hje
+ REKSUYXX0NfSXVaWEVOdUNESEVfRE4RCkNOF1NtehNGG0lpSWFpYkFtZVB/emJLZnhoXXl5W3Vl
+ SXxwEQpYXBcfBBoEGBofBRsaBBsbGgQfGgQbHhgQGx4aHxoRCl5ZF31tQmtmEQpNXBcbHRoRCkx
+ aF21NTWsRCkVZF2hrEQpMRhdva2tva2tuEQpCTxdpThofbm4afUJsThEKQ1oXGxkeBBwSBBsYHw
+ QYHhsRCkJeFxsRCkRYFxkRCkJFF2BiAV5YX2lOeWNQEQpCThdnU2QdHn5ZfX1aTREKQkwXYwVOQ
+ 01zGll6T0gRCkJsF29ZTWxPQEVyRk5EEQpCQBdiTUZGRxoSXX1OfBEKcGcXbEUcXH8dExJDbGgQ
+ HhIRCnBoF2FiRkVFbAVeHUsdEBoRCnBoF2dtH1xFY2lLWgV7EBoRCnBoF2hYZERkZlp+cm5oEBo
+ RCnBoF2BwR3xbHWRrUFB9EBoRCnBoF2sYWVl5RkZCRBt9EBoRCnBsF2NFa3JbSRNSTlwdEBoRCm
+ 1+FxoRClhNF0sRIA==
+X-CLX-Shades: None
+X-Spam-Details: rule=cautious_notspam policy=cautious score=0 spamscore=0 suspectscore=11
+ malwarescore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
+ phishscore=0 mlxlogscore=951 impostorscore=0 adultscore=0 clxscore=1005
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=2
+ engine=8.12.0-2004280000 definitions=main-2006130048
+X-Spam-Score: 0
+X-Spam-OrigSender: ht.public.domain.open.access.dataset.notifications-errors@umich.edu
+X-Spam-Bar:
+Return-Path:
+ ht.public.domain.open.access.dataset.notifications-errors@umich.edu
+X-MS-Exchange-Organization-ExpirationStartTime: 13 Jun 2020 06:00:17.2210
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id:
+ f5116e1f-1757-4e35-2a99-08d80f5f0c19
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 44467e6f-462c-4ea2-823f-7800de5434e3:0
+X-MS-Exchange-Organization-MessageDirectionality: Incoming
+X-Forefront-Antispam-Report:
+ CIP:204.93.2.9;CTRY:US;LANG:en;SCL:-1;SRV:;IPV:CAL;SFV:SKN;H:illinois.edu;PTR:relays-agent10.techservices.illinois.edu;CAT:NONE;SFTY:;SFS:(83170400001)(336012)(4744005)(5660300002)(82310400002)(450100002)(356005)(26005)(8676002)(1096003)(1076003)(7636003)(9686003)(6266002)(34206002)(83380400001)(75432002)(33656002)(42882007);DIR:INB;SFP:;
+X-MS-PublicTrafficType: Email
+MIME-Version: 1.0
+X-MS-Exchange-Organization-AuthSource:
+ CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-Office365-Filtering-Correlation-Id: f5116e1f-1757-4e35-2a99-08d80f5f0c19
+X-MS-TrafficTypeDiagnostic: SA0PR11MB4671:
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-Organization-SCL: -1
+X-Microsoft-Antispam: BCL:0;
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2020 06:00:17.0002
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5116e1f-1757-4e35-2a99-08d80f5f0c19
+X-MS-Exchange-CrossTenant-Id: 44467e6f-462c-4ea2-823f-7800de5434e3
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4671
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:01.8036746
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.3088.022
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;auth:0;dest:I;ENG:(750128)(520011016)(944506458)(944626604);
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?e77iy1GxN8oudVM+/+BLfVelWLoZbm340dzqISSw/YpobmUlSlbQvG9nofAu?=
+ =?us-ascii?Q?pdvnlF5h9bKFJuASMmEbX0vj3pmgzt8aV+k7vbuLuYTbeMVad5uwgE5qquKo?=
+ =?us-ascii?Q?Qcxg0j9JoCpnQmOXnXJq+sTWbD2AcAtV/D1Cn2khAdvhfcde2nYiq97axb2I?=
+ =?us-ascii?Q?8I9H8QZuHGt+yCwoxKflOAw8cSU1Ej9k+jdTYbtZa1wLZVsgJHcanO4iX+PS?=
+ =?us-ascii?Q?aRCc1j25ueJn7sPu3pGO/pX0GfqURXjhO6AJZa54n/IqgSD7N5/01XIuv52y?=
+ =?us-ascii?Q?qhHW/kCp2Rw4dQ9+6yGME++Giyj8hYxPPb74xB4aQsCBuX3RNQXOTbYhyryK?=
+ =?us-ascii?Q?Lv7oJfb9h61DD8NYw1Dn2qrA1RO/Xa1ETKAo1iNuSoQij40grlnz8RrWFsNI?=
+ =?us-ascii?Q?ID5pMHr+p1WFuCKuir9u6SQOWS7f4B9YNB65juHmnutMz4tTz1IMinZnvmmc?=
+ =?us-ascii?Q?u4uXESeUrVvNTtSZWFP3lltvupned/1sEefEOzjKKpXp4y/Ewk+zcU9pelpC?=
+ =?us-ascii?Q?bVNk751En245mnhKWUiX952/qknIQQJHdCMrr7g7bAQJysh8tc5mkAwbR890?=
+ =?us-ascii?Q?iPNrrX17BuXlvVage3kO1gXFQPPl+bXpfnVaeWt8kNAAvJRfaNrHKIDtd0P7?=
+ =?us-ascii?Q?GF0dadoCzx12/OTGrJCLeFjvquBr4PfOaJsC63A+Y9IZyYVGAS0h405B6NUX?=
+ =?us-ascii?Q?NYY0km1F+KkDiCqf+Lq1kGtpn4Sg3PBfTgnAJV4qoRnUXI99uzSnBJqrj+al?=
+ =?us-ascii?Q?iBQuZagdgIKPiDIfYannXrQDUv6v171c5sRCClgpiDLYdaQSmKQSvYP9GTE+?=
+ =?us-ascii?Q?UCdo54tHUS/znng2QPce4a7uXvoDVgauIW0HnZ5SsxOxWS8LaIWN9biPEA1t?=
+ =?us-ascii?Q?XcJyY9vft146h7bL0hwK5Ad/sMdtZydjemHM8mnwNlRNGxS4tUrpWPij163Z?=
+ =?us-ascii?Q?/La2BLNUSOU2zybl9GpO46OAWkjtdUg3ECZsAmvoLeiv3PJXKRB/vLtOgnv2?=
+ =?us-ascii?Q?kUjhwYdTD7t58C2lpk0yBud1vhTR2Qw8Z2qGC91k8QWiTUe7k9HTPmX0YSIB?=
+ =?us-ascii?Q?u5P2iFUWBztr9QZGHI3zMOiZ2yVw7nCAqVtp0pKOdkSw5w6QrC7TUQu8KYZW?=
+ =?us-ascii?Q?W4qowlYz2CbN4So/czG7pz3nuIouF48sQkpiFdWgHy/NylMFZivXVQ9WLxUs?=
+ =?us-ascii?Q?Tg3di4Zs8ih3EN9NGP4vdiKvsIzI/RNJw1qDlnEK6VRIEZ5iGbe6HIUWMdez?=
+ =?us-ascii?Q?NRCXaJV96cLKvO9Hwt/eshLW9tOVA/FRU1lDKFZV5rfESyPkdIecusTdf4A+?=
+ =?us-ascii?Q?nW0B7LldnnO8bZC0MvUDAUE9tmR+V0gxNIxA9I6YmJg5IQ=3D=3D?=
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: 7bit
+
+
+Dear HathiTrust dataset recipient,
+
+What follows is a list of HathiTrust volumes formerly in the "ht_text_pd_open_access" dataset that no longer meet the criteria for inclusion. In accordance with our terms of use, please delete all copies you retain of these volumes.
+
+If you no longer possess HathiTrust datasets, or if you have other questions regarding datasets, then please email feedback@issues.hathitrust.org.
+
+Thank you.
+
+HathiTrust
+
+===BEGIN ID LIST===
+mou.010003285778
+===END ID LIST===
+
