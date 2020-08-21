@@ -56,9 +56,9 @@ class Window(tk.Tk):
     def __init__(self):
         super(Window, self).__init__()
 
-        self.title("Title goes here")
-        self.minsize(1100, 400)
-        X_WIDTH = 170
+        self.title("HT Delete Notices App")
+        self.minsize(1000, 500)
+        X_WIDTH = 140
         # self.tk.call('wm', 'iconphoto', self._w, tk.PhotoImage(file='hXUrRNqC_400x400.png'))
 
         self.label_email = tk.Label(self, text="Load Email")
@@ -84,8 +84,8 @@ class Window(tk.Tk):
         self.button_root = tk.Button(self, text="Browse", command=self.browse_root)
         self.button_root.grid(column=1, row=3)
 
-        self.text_box = tk.Text(self, height=10, width=X_WIDTH - 42)
-        self.text_box.grid(column=0, row=4, pady=10)
+        self.text_box = tk.Text(self, height=10, width=X_WIDTH )
+        self.text_box.grid(column=0, row=4, pady=10, padx=10)
 
         self.button_clean = tk.Button(self, text="Clean", command=self.clean_vols)
         # command=threading.Thread(target=self.start_clean_vols).start)
