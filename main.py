@@ -56,43 +56,111 @@ class Window(tk.Tk):
     def __init__(self):
         super(Window, self).__init__()
 
+        BG_COLOR = "#A9A9A9"
         self.title("HT Delete Notices App")
-        self.minsize(1000, 500)
-        X_WIDTH = 140
+        main_frame = tk.Frame(self, bg=BG_COLOR)
+        main_frame.pack(fill="both", expand=True)
+
+        self.minsize(800, 500)
+        # X_WIDTH = 140
         # self.tk.call('wm', 'iconphoto', self._w, tk.PhotoImage(file='hXUrRNqC_400x400.png'))
 
-        self.label_email = tk.Label(self, text="Load Email")
-        self.label_email.grid(column=0, row=0, padx=10, pady=10)
+        # Vertical Frame for the Label
+        vertical_frame1 = tk.Frame(main_frame, bg=BG_COLOR)
+        label1 = tk.Label(vertical_frame1, text='Load Email', bg=BG_COLOR)
+        label1.pack(fill='x', padx=10, pady=(20, 0))
+        vertical_frame1.pack(fill="x")
 
         self.str_email = tk.StringVar()
-        self.str_email.set("Use 'Browse' button to select email file")
-        self.entry_email = tk.Entry(self, width=X_WIDTH, textvariable=self.str_email)
-        self.entry_email.grid(column=0, row=1, padx=10, pady=10)
+        self.str_email.set(" Use 'Browse' button to select the email file")
 
-        self.button_email = tk.Button(self, text="Browse", command=self.browse_email)
-        self.button_email.grid(column=1, row=1)
+        # Horizontal frame for the Entry and the Button
+        horizontal_frame1 = tk.Frame(main_frame, bg=BG_COLOR)
 
-        # root path
-        self.label_root = tk.Label(self, text="Search directory")
-        self.label_root.grid(column=0, row=2, padx=10, pady=10)
+        entry_email = tk.Entry(horizontal_frame1, textvariable=self.str_email)
+        entry_email.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
+
+        button_email = tk.Button(horizontal_frame1, text="Browse", command=self.browse_email)
+        button_email.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
+
+        horizontal_frame1.grid_columnconfigure(0, weight=9)
+        horizontal_frame1.grid_columnconfigure(1, weight=1)
+
+        horizontal_frame1.pack(fill='x')
+
+        # Vertical Frame for the Label
+        vertical_frame2 = tk.Frame(main_frame, bg=BG_COLOR)
+        label2 = tk.Label(vertical_frame2, text='Search directory', bg=BG_COLOR)
+        label2.pack(fill='x', padx=10, pady=(20, 0))
+        vertical_frame2.pack(fill="x")
 
         self.str_root = tk.StringVar()
-        self.str_root.set('default search dir is not selected')
-        self.entry_root = tk.Entry(self, width=X_WIDTH, textvariable=self.str_root)
-        self.entry_root.grid(column=0, row=3, padx=10, pady=10)
+        self.str_root.set(" Use 'Browse' button to select the 'Pairtree' Directory.")
 
-        self.button_root = tk.Button(self, text="Browse", command=self.browse_root)
-        self.button_root.grid(column=1, row=3)
+        # Horizontal frame for the Entry and the Button
+        horizontal_frame2 = tk.Frame(main_frame, bg=BG_COLOR)
 
-        self.text_box = tk.Text(self, height=10, width=X_WIDTH )
-        self.text_box.grid(column=0, row=4, pady=10, padx=10)
+        entry_root = tk.Entry(horizontal_frame2, textvariable=self.str_root)
+        entry_root.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
 
-        self.button_clean = tk.Button(self, text="Clean", command=self.clean_vols)
-        # command=threading.Thread(target=self.start_clean_vols).start)
-        self.button_clean.grid(column=1, row=4)
+        button_root = tk.Button(horizontal_frame2, text="Browse", command=self.browse_root)
+        button_root.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
 
-        self.button_print = tk.Button(self, text='Print to TXT file', command=self.print)
-        self.button_print.grid(column=0, row=5)
+        horizontal_frame2.grid_columnconfigure(0, weight=9)
+        horizontal_frame2.grid_columnconfigure(1, weight=1)
+
+        horizontal_frame2.pack(fill='x')
+
+        # Vertical Frame for the Label
+        vertical_frame3 = tk.Frame(main_frame, bg=BG_COLOR)
+        label3 = tk.Label(vertical_frame3, text='Console', bg=BG_COLOR)
+        label3.pack(fill='x', padx=10, pady=(20, 0))
+        vertical_frame3.pack(fill="x")
+
+        # Horizontal frame for the Text box and buttons
+        horizontal_frame3 = tk.Frame(main_frame, bg='blue')
+
+        #self.text_box = tk.Text(horizontal_frame3)
+        #self.text_box.pack(fill='y', expand=True)
+        #self.text_box.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
+
+        #self.text_box2 = tk.Text(horizontal_frame3)
+        #self.text_box2.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
+
+        vertical_frame_sub1 = tk.Frame(horizontal_frame3, bg='red')
+        vertical_frame_sub1.grid(row=0, column=0,  sticky="nsew")
+
+        vertical_frame_sub2 = tk.Frame(horizontal_frame3, bg='green')
+        vertical_frame_sub2.grid(row=0, column=1, sticky="nsew")
+        #button_root11 = tk.Button(horizontal_frame3, text="Browse", command=self.browse_root)
+        #button_root11.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
+
+        #button_root12 = tk.Button(horizontal_frame3, text="Browse", command=self.browse_root)
+        #button_root12.grid(row=1, column=1, padx=10, pady=5, sticky="nsew")
+
+        horizontal_frame3.grid_columnconfigure(0, weight=9)
+        horizontal_frame3.grid_columnconfigure(1, weight=1)
+
+        horizontal_frame3.pack(fill='both', expand=True)
+
+        #entry_email2 = tk.Entry(vertical_frame_sub1, textvariable=self.str_email)
+        #entry_email2.pack( fill='x', padx=10, pady=5)
+
+        button_root11 = tk.Text(vertical_frame_sub1, width=11, yscrollcommand=True)
+        button_root11.pack(fill="x",padx=10, pady=5)
+
+        button_root21 = tk.Button(vertical_frame_sub2, text="Browse", command=self.browse_root)
+        button_root21.pack(fill="x", padx=10, pady=5)
+
+    #    self.text_box = tk.Text(self, height=10, width=X_WIDTH )
+    #    self.text_box.grid(column=0, row=4, pady=10, padx=10)
+
+    #    self.button_clean = tk.Button(self, text="Clean", command=self.clean_vols)
+    # command=threading.Thread(target=self.start_clean_vols).start)
+    #    self.button_clean.grid(column=1, row=4)
+
+    #    self.button_print = tk.Button(self, text='Print to TXT file', command=self.print)
+    #    self.button_print.grid(column=0, row=5)
 
     #    def refresh(self):
     #        self._root().update()
@@ -110,13 +178,13 @@ class Window(tk.Tk):
 
     def print(self):
         self.file_s = filedialog.asksaveasfile(initialfile="email_cleaned_log", title="Save Text File as",
-                                                     defaultextension='.txt',
-                                                     filetypes=[("Text files", ".txt")])
+                                               defaultextension='.txt',
+                                               filetypes=[("Text files", ".txt")])
 
         save_file = str(self.text_box.get(1.0, "end-1c"))
         self.file_s.write(save_file)
-        #f = open(self.filename, 'w')
-        #f.write(self.text.get('1.0', 'end'))
+        # f = open(self.filename, 'w')
+        # f.write(self.text.get('1.0', 'end'))
         self.file_s.close()
         messagebox.showinfo('FYI', 'File Saved')
 
@@ -163,7 +231,8 @@ class Window(tk.Tk):
 
     def browse_root(self):
         directory = filedialog.askdirectory()
-        self.str_root.set(directory)
+        if directory:
+            self.str_root.set(directory)
 
     def browse_email(self):
         file = filedialog.askopenfilename(filetypes=[("E-mail file", ".eml")])
