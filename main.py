@@ -10,53 +10,66 @@ from tkinter import filedialog, messagebox
 # from tensorflow.python.keras.engine.training_utils import collect_per_output_metric_info
 
 
-def delete_vol(dir_name, vol_name, path1):
-    path = Path(path1)
+def check_status(dir_name, vol_name, path):
     my_path = path / dir_name
 
-    def rm_tree(pth):
-        pth = Path(pth)
-        for child in pth.glob('*'):
-            if child.is_file():
-                child.unlink()
-            else:
-                rm_tree(child)
-        pth.rmdir()
-
-    if my_path.exists():
+    if not my_path.exists():
+        return "No dir: " + str(my_path)
+    else:
         dir_root = my_path / 'pairtree_root'
         vol_names = [vol_name[i:i + 2] for i in range(0, len(vol_name), 2)]
         for i in range(0, len(vol_names)):
             dir_root = dir_root / vol_names[i]
-        if dir_root.exists():
-            print(dir_root)
-            s = list(dir_root.glob('*' + vol_name + "*"))
-            print(s)
-            if s:
-                for item in s:
-                    if item.is_dir():
-                        rm_tree(item)
-                    else:
-                        item.unlink()
-                    print('Deleted :' + vol_name + " @ " + item)
-                    return 'Deleted :' + vol_name + " @ " + item
-            else:
-                print("Already deleted/ nothing inside")
-                return "Already deleted/ nothing inside"
 
+        if not dir_root.exists():
+            return "No vol: " + str(dir_root)
         else:
-            print('No pairtree folder or files for ' + vol_name)
-            return 'No pairtree folder or files for ' + vol_name
+            # s = list(dir_root.glob('*' + vol_name + "*"))
+            s = list(dir_root.glob("*"))
+            if s:
+                return s
+            else:
+                return "Already deleted or nothing inside: " + str(dir_root)
+
+
+def get_email_data(email_file):
+    text_data = ''
+    with open(email_file, 'r') as f:
+        msg = email.message_from_file(f)
+        # print(msg)
+        if msg.is_multipart():
+            return 'multipart email functionality is not yet defined. Contact Ashan.'
+        else:
+            payload = msg.get_payload(decode=True)
+            strtext = payload.decode()
+            # dt = msg.get('date')
+            # print(dt)
+            # print(strtext)
+            # print('single')
+            text_data = strtext
+
+    some_useful_data = text_data.split('===')
+    if len(some_useful_data) >= 4:
+        useful_data = some_useful_data[2].split()
+        # print(text_data)
+        data_out = []
+        for data in useful_data:
+            temp_data = data.split('.')
+            data_out.append(temp_data[0])
+            data_out.append(temp_data[1])
+        if len(data_out) == 0:
+            return 'Empty ID LIST found in the Email. Tip: check ID LIST in the email'
+        else:
+            return data_out
     else:
-        print('No dir= ' + str(my_path))
-        return 'No dir= ' + str(my_path)
+        return 'No ID LIST found in the Email. Tip: check "===BEGIN ID LIST===" and "===END ID LIST===" in the email'
 
 
 class Window(tk.Tk):
     def __init__(self):
         super(Window, self).__init__()
 
-        BG_COLOR = "#A9A9A9"
+        BG_COLOR = "#A0A0A0"
         self.title("HT Delete Notices App")
         main_frame = tk.Frame(self, bg=BG_COLOR)
         main_frame.pack(fill="both", expand=True)
@@ -118,44 +131,29 @@ class Window(tk.Tk):
         vertical_frame3.pack(fill="x")
 
         # Horizontal frame for the Text box and buttons
-        horizontal_frame3 = tk.Frame(main_frame, bg='blue')
+        horizontal_frame3 = tk.Frame(main_frame, bg=BG_COLOR)
 
-        #self.text_box = tk.Text(horizontal_frame3)
-        #self.text_box.pack(fill='y', expand=True)
-        #self.text_box.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
+        vertical_frame_sub1 = tk.Frame(horizontal_frame3, bg=BG_COLOR)
+        vertical_frame_sub1.grid(row=0, column=0, sticky="nsew")
 
-        #self.text_box2 = tk.Text(horizontal_frame3)
-        #self.text_box2.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
-
-        vertical_frame_sub1 = tk.Frame(horizontal_frame3, bg='red')
-        vertical_frame_sub1.grid(row=0, column=0,  sticky="nsew")
-
-        vertical_frame_sub2 = tk.Frame(horizontal_frame3, bg='green')
+        vertical_frame_sub2 = tk.Frame(horizontal_frame3, bg=BG_COLOR)
         vertical_frame_sub2.grid(row=0, column=1, sticky="nsew")
-        #button_root11 = tk.Button(horizontal_frame3, text="Browse", command=self.browse_root)
-        #button_root11.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
-
-        #button_root12 = tk.Button(horizontal_frame3, text="Browse", command=self.browse_root)
-        #button_root12.grid(row=1, column=1, padx=10, pady=5, sticky="nsew")
 
         horizontal_frame3.grid_columnconfigure(0, weight=9)
         horizontal_frame3.grid_columnconfigure(1, weight=1)
 
-        horizontal_frame3.pack(fill='both', expand=True)
+        horizontal_frame3.pack(fill='both')
 
-        #entry_email2 = tk.Entry(vertical_frame_sub1, textvariable=self.str_email)
-        #entry_email2.pack( fill='x', padx=10, pady=5)
+        # Text Box
+        self.text_box = tk.Text(vertical_frame_sub1, width=11, yscrollcommand=True)
+        self.text_box.pack(fill="x", padx=10, pady=5)
 
-        button_root11 = tk.Text(vertical_frame_sub1, width=11, yscrollcommand=True)
-        button_root11.pack(fill="x",padx=10, pady=5)
+        # Buttons
+        button_detect= tk.Button(vertical_frame_sub2, text="Detect", command=self.detect_vols)
+        button_detect.pack(fill="x", padx=10, pady=5)
 
-        button_root21 = tk.Button(vertical_frame_sub2, text="Browse", command=self.browse_root)
-        button_root21.pack(fill="x", padx=10, pady=5)
-
-    #    self.text_box = tk.Text(self, height=10, width=X_WIDTH )
-    #    self.text_box.grid(column=0, row=4, pady=10, padx=10)
-
-    #    self.button_clean = tk.Button(self, text="Clean", command=self.clean_vols)
+        button_clean = tk.Button(vertical_frame_sub2, text="Clean", bg='#ff3232', command=self.clean_vols)
+        button_clean.pack(fill="x", padx=10, pady=10)
     # command=threading.Thread(target=self.start_clean_vols).start)
     #    self.button_clean.grid(column=1, row=4)
 
@@ -188,46 +186,69 @@ class Window(tk.Tk):
         self.file_s.close()
         messagebox.showinfo('FYI', 'File Saved')
 
-    def clean_vols(self):
+    def detect_vols(self):
         email_file = Path(str(self.str_email.get()))
         root_path = Path(str(self.str_root.get()))
-        # print(self.str_email.get())
-        if not email_file.exists() and not root_path.exists():
-            self.text_box.insert(tk.END, 'Error. Please select email(.eml) file & Search directory\n')
-        elif not email_file.exists() and root_path.exists():
-            self.text_box.insert(tk.END, 'Error. Please select email(.eml) file\n')
-        elif email_file.exists() and not root_path.exists():
-            self.text_box.insert(tk.END, 'Error. Please select Search directory\n')
+        self.text_box.delete('1.0', tk.END)
+        if not email_file.exists():
+            self.text_box.insert(tk.END, 'Error. Please select a valid email(.eml) file\n'
+                                 + "Given Path: " + str(self.str_email.get()) + '\n')
+            return None
+        elif not root_path.exists():
+            self.text_box.insert(tk.END, 'Error. Please select a valid search directory\n'
+                                 + "Given Path: " + str(self.str_root.get()) + '\n')
+            return None
         else:
             self.text_box.insert(tk.END, 'Email file: ' + str(email_file) + '\n')
-            self.text_box.insert(tk.END, 'Search directory: ' + str(root_path) + '\n')
-            text_data = ''
+            self.text_box.insert(tk.END, 'Given pairtree directory: ' + str(root_path) + '\n')
 
-            with open(email_file, 'r') as f:
-                msg = email.message_from_file(f)
-                # print(msg)
-                if msg.is_multipart():
-                    print('multi')
+            email_data = get_email_data(email_file)
+            if isinstance(email_data, str):
+                self.text_box.insert(tk.END, email_data + '\n')
+                return None
+            else:
+                self.text_box.insert(tk.END, '\ndir\t->\tvol name\t:\tstatus\n')
+                delete_ready = []
+                for i in range(0, len(email_data), 2):
+                    dir_name = email_data[i]
+                    vol_name = email_data[i + 1]
+                    status_var = check_status(dir_name, vol_name, root_path)
+                    if isinstance(status_var, list):
+                        status = "Ready to Delete: <listed below> \n" + str('\n'.join(map(str, status_var))) + "\n"
+                        delete_ready.append(status_var)
+                    else:
+                        status = status_var
+                    self.text_box.insert(tk.END, dir_name + "\t->" + '\t' + vol_name
+                                         + '\t:\t' + status + '\n')
+                if len(delete_ready) == 0:
+                    return None
                 else:
-                    payload = msg.get_payload(decode=True)
-                    strtext = payload.decode()
-                    dt = msg.get('date')
-                    # print(dt)
-                    # print(strtext)
-                    print('single')
-                    text_data = strtext
+                    return delete_ready
 
-            usefull_data = text_data.split('===')[2].split()
-            # print(text_data)
-            self.text_box.insert(tk.END, 'dir\t->\tvol name\t:\tstatus\n')
-            for data in usefull_data:
-                temp_data = data.split('.')
-                dir_name = temp_data[0]
-                vol_name = temp_data[1]
-                status = delete_vol(dir_name, vol_name, root_path)
-                # print(dir_name + vol_name + str(root_path))
-                self.text_box.insert(tk.END, dir_name + "\t->" + '\t' + vol_name + '\t:\t' + status + '\n')
-                #   print(dir_name+"->"+vol_name)
+    def clean_vols(self):
+
+        output = self.detect_vols()
+        if output:
+            print(output)
+        else:
+            tkinte
+        """def rm_tree(pth):
+            pth = Path(pth)
+            for child in pth.glob('*'):
+                if child.is_file():
+                    child.unlink()
+                else:
+                    rm_tree(child)
+            pth.rmdir()
+            
+                    for item in s:
+                        if item.is_dir():
+                            rm_tree(item)
+                        else:
+                            item.unlink()
+                        print('Deleted :' + vol_name + " @ " + item)
+                        return 'Deleted :' + vol_name + " @ " + item"""
+
 
     def browse_root(self):
         directory = filedialog.askdirectory()
