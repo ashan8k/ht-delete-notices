@@ -65,6 +65,24 @@ def get_email_data(email_file):
         return 'No ID LIST found in the Email. Tip: check "===BEGIN ID LIST===" and "===END ID LIST===" in the email'
 
 
+def rm_tree(pth):
+    pth = Path(pth)
+    for child in pth.glob('*'):
+        if child.is_file():
+            child.unlink()
+        else:
+            rm_tree(child)
+    pth.rmdir()
+
+
+def delete_files_dirs(delete_files_list):
+    for item in delete_files_list:
+        if item.is_dir():
+            rm_tree(item)
+        else:
+            item.unlink()
+
+
 class Window(tk.Tk):
     def __init__(self):
         super(Window, self).__init__()
@@ -149,16 +167,20 @@ class Window(tk.Tk):
         self.text_box.pack(fill="x", padx=10, pady=5)
 
         # Buttons
-        button_detect= tk.Button(vertical_frame_sub2, text="Detect", command=self.detect_vols)
+        button_detect = tk.Button(vertical_frame_sub2, text="Detect", command=self.detect_vols)
         button_detect.pack(fill="x", padx=10, pady=5)
 
-        button_clean = tk.Button(vertical_frame_sub2, text="Clean", bg='#ff3232', command=self.clean_vols)
+        button_clean = tk.Button(vertical_frame_sub2, wraplength=70, text="Delete Identified Files", bg='#ff3232',
+                                 command=self.clean_vols)
         button_clean.pack(fill="x", padx=10, pady=10)
+
+        button_print = tk.Button(vertical_frame_sub2, wraplength=70, text='Save logs to a TXT', command=self.print)
+        button_print.pack(fill="x", padx=10, pady=10)
+
     # command=threading.Thread(target=self.start_clean_vols).start)
     #    self.button_clean.grid(column=1, row=4)
 
-    #    self.button_print = tk.Button(self, text='Print to TXT file', command=self.print)
-    #    self.button_print.grid(column=0, row=5)
+    #    s
 
     #    def refresh(self):
     #        self._root().update()
@@ -175,16 +197,19 @@ class Window(tk.Tk):
     #        t1.daemon
 
     def print(self):
-        self.file_s = filedialog.asksaveasfile(initialfile="email_cleaned_log", title="Save Text File as",
-                                               defaultextension='.txt',
-                                               filetypes=[("Text files", ".txt")])
 
-        save_file = str(self.text_box.get(1.0, "end-1c"))
-        self.file_s.write(save_file)
-        # f = open(self.filename, 'w')
-        # f.write(self.text.get('1.0', 'end'))
-        self.file_s.close()
-        messagebox.showinfo('FYI', 'File Saved')
+        file = filedialog.asksaveasfile(initialfile="email_cleaned_log", title="Save Text File as",
+                                        defaultextension='.txt',
+                                        filetypes=[("Text files", ".txt")])
+        if file:
+
+            save_file_data = str(self.text_box.get(1.0, "end-1c"))
+            file.write(save_file_data)
+            # f = open(self.filename, 'w')
+            # f.write(self.text.get('1.0', 'end'))
+            file.close()
+            messagebox.showinfo('FYI', 'File Saved')
+            
 
     def detect_vols(self):
         email_file = Path(str(self.str_email.get()))
@@ -229,26 +254,24 @@ class Window(tk.Tk):
 
         output = self.detect_vols()
         if output:
-            print(output)
-        else:
-            tkinte
-        """def rm_tree(pth):
-            pth = Path(pth)
-            for child in pth.glob('*'):
-                if child.is_file():
-                    child.unlink()
-                else:
-                    rm_tree(child)
-            pth.rmdir()
-            
-                    for item in s:
-                        if item.is_dir():
-                            rm_tree(item)
-                        else:
-                            item.unlink()
-                        print('Deleted :' + vol_name + " @ " + item)
-                        return 'Deleted :' + vol_name + " @ " + item"""
+            delete_files_list = []
+            index = 0
+            for i in range(0, len(output)):
+                # print('123')
+                for j in range(0, len(output[i])):
+                    delete_files_list.append(output[i][j])
+                    index += 1
+            if messagebox.askyesno('Verify', str(index) + ' files/directories to delete. Are you sure that you want to '
+                                                          'delete ?'):
+                # print(delete_files_list)
+                delete_files_dirs(delete_files_list)
+                self.text_box.insert(tk.END, '\nDeleted file/directory list:\n' + str(
+                    '\n'.join(map(str, delete_files_list))) + '\n')
 
+            else:
+                self.text_box.insert(tk.END, 'Nothing deleted.\n')
+        else:
+            messagebox.showwarning('FYI', 'Nothing to delete')
 
     def browse_root(self):
         directory = filedialog.askdirectory()
