@@ -20,7 +20,7 @@ Python 3.5 or above
 
 1. Windows (64bit)
 
-    Download [builds/ht-delete-notices-windows.exe](https://github.com/ashan8k/ht-delete-notices/blob/master/builds/ht-delete-notices-windows.exe) and run.
+    Download [builds/ht-delete-notices-windows.exe](https://github.com/ashan8k/ht-delete-notices/raw/master/builds/ht-delete-notices-windows.exe) and run.
 
 2. OS X
 
