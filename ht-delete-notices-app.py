@@ -1,3 +1,7 @@
+# HT delete notices GUI App 
+# Develped by: Ashan Liyanage
+# Version 0.2
+
 import threading
 import tkinter as tk
 import email
