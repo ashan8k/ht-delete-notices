@@ -1,8 +1,7 @@
 # HT delete notices GUI App 
 # Develped by: Ashan Liyanage
-# Version 0.2
+# Version 0.3
 
-import threading
 import tkinter as tk
 import email
 from pathlib import Path
@@ -37,7 +36,7 @@ def check_status(dir_name, vol_name, path):
 
 
 def get_email_data(email_file):
-    text_data = ''
+    # text_data = ''
     with open(email_file, 'r') as f:
         msg = email.message_from_file(f)
         # print(msg)
@@ -206,14 +205,12 @@ class Window(tk.Tk):
                                         defaultextension='.txt',
                                         filetypes=[("Text files", ".txt")])
         if file:
-
             save_file_data = str(self.text_box.get(1.0, "end-1c"))
             file.write(save_file_data)
             # f = open(self.filename, 'w')
             # f.write(self.text.get('1.0', 'end'))
             file.close()
             messagebox.showinfo('FYI', 'File Saved')
-            
 
     def detect_vols(self):
         email_file = Path(str(self.str_email.get()))
@@ -243,7 +240,8 @@ class Window(tk.Tk):
                     vol_name = email_data[i + 1]
                     status_var = check_status(dir_name, vol_name, root_path)
                     if isinstance(status_var, list):
-                        status = "Ready to Delete following folders/ files <listed below> \n" + str('\n'.join(map(str, status_var))) + "\n"
+                        status = "Ready to Delete following folders/ files <listed below> \n" + str(
+                            '\n'.join(map(str, status_var))) + "\n"
                         delete_ready.append(status_var)
                     else:
                         status = status_var
