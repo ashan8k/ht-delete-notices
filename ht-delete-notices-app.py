@@ -18,7 +18,7 @@ def check_status(dir_name, vol_name, path):
     my_path = path / dir_name
 
     if not my_path.exists():
-        return "No dir: " + str(my_path)
+        return "There's no Top level directory of " + str(my_path)
     else:
         dir_root = my_path / 'pairtree_root'
         vol_names = [vol_name[i:i + 2] for i in range(0, len(vol_name), 2)]
@@ -26,14 +26,14 @@ def check_status(dir_name, vol_name, path):
             dir_root = dir_root / vol_names[i]
 
         if not dir_root.exists():
-            return "No vol: " + str(dir_root)
+            return "There's NO Pairtree Volume path of " + str(dir_root)
         else:
             # s = list(dir_root.glob('*' + vol_name + "*"))
             s = list(dir_root.glob("*"))
             if s:
                 return s
             else:
-                return "Already deleted or nothing inside: " + str(dir_root)
+                return "Already deleted or nothing inside the path of " + str(dir_root)
 
 
 def get_email_data(email_file):
@@ -236,18 +236,18 @@ class Window(tk.Tk):
                 self.text_box.insert(tk.END, email_data + '\n')
                 return None
             else:
-                self.text_box.insert(tk.END, '\ndir\t->\tvol name\t:\tstatus\n')
+                self.text_box.insert(tk.END, '\nTop_Level_Directory\t,\tVolume name\t:\tstatus\n')
                 delete_ready = []
                 for i in range(0, len(email_data), 2):
                     dir_name = email_data[i]
                     vol_name = email_data[i + 1]
                     status_var = check_status(dir_name, vol_name, root_path)
                     if isinstance(status_var, list):
-                        status = "Ready to Delete: <listed below> \n" + str('\n'.join(map(str, status_var))) + "\n"
+                        status = "Ready to Delete following folders/ files <listed below> \n" + str('\n'.join(map(str, status_var))) + "\n"
                         delete_ready.append(status_var)
                     else:
                         status = status_var
-                    self.text_box.insert(tk.END, dir_name + "\t->" + '\t' + vol_name
+                    self.text_box.insert(tk.END, '\n' + dir_name + "\t\t," + ' ' + vol_name
                                          + '\t:\t' + status + '\n')
                 if len(delete_ready) == 0:
                     return None
@@ -257,6 +257,7 @@ class Window(tk.Tk):
     def clean_vols(self):
 
         output = self.detect_vols()
+        print(output)
         if output:
             delete_files_list = []
             index = 0
